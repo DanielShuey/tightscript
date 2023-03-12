@@ -4,7 +4,7 @@ declare namespace ChainOfResponsibility {
         private prev;
         constructor(prev: T | Promise<T>);
         result(): Promise<T>;
-        reject(predicate: (prev: Promise<T>) => boolean, message: string): Handler<T>;
+        reject(predicate: (prev: T) => boolean, message: string): Handler<T>;
         then<T2>(func: (prev: T) => T2 | PromiseLike<T2>): Handler<T2>;
     }
 }

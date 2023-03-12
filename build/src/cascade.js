@@ -16,8 +16,11 @@ var ChainOfResponsibility;
             return this.prev;
         }
         reject(predicate, message) {
-            if (predicate(this.prev))
-                throw new Error(message);
+            this.prev.then(x => {
+                if (predicate(x)) {
+                    throw new Error(message);
+                }
+            });
             return this;
         }
         then(func) {
