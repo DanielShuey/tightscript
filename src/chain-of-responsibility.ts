@@ -1,4 +1,4 @@
-export default function chain() {
+export function chain() {
   return new ChainOfResponsibility.Handler();
 }
 
