@@ -26,7 +26,7 @@ namespace ChainOfResponsibility {
       return this;
     }
 
-    tap<T2>(func: (prev: T) => T2): Handler<T2> {
+    then<T2>(func: (prev: T) => T2): Handler<T2> {
       try {
         return new Handler<T2>(func(this.prev));
       } catch (e: any) {
