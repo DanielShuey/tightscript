@@ -6,29 +6,28 @@ namespace ChainOfResponsibility {
   // Have to run all at once due to promises
 
   export class Handler<T> {
-    private prev: T;
+    private prev: Promise<T>;
 
-    constructor(prev: T) {
-      this.prev = prev;
+    constructor(prev: T | Promise<T>) {
+      this.prev = new Promise(() => prev);
     }
 
-    result(): T {
+    result(): Promise<T> {
       return this.prev;
     }
 
     reject(
-      predicate: (prev: T) => Promise<boolean>,
+      predicate: (prev: Promise<T>) => boolean,
       message: string
     ): Handler<T> {
-      predicate(this.prev).then(result => {
-        if (result) throw new Error(message);
-      });
+      if (predicate(this.prev)) throw new Error(message);
       return this;
     }
 
-    then<T2>(func: (prev: T) => T2): Handler<T2> {
+    then<T2>(func: (prev: T) => T2 | PromiseLike<T2>): Handler<T2> {
       try {
-        return new Handler<T2>(func(this.prev));
+        const result = this.prev.then(func);
+        return new Handler<T2>(result);
       } catch (e: any) {
         throw new Error(e.message);
       }
