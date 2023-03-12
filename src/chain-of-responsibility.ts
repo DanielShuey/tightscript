@@ -10,23 +10,20 @@ namespace ChainOfResponsibility {
       this.prev = prev;
     }
 
-    async result(): Promise<T> {
-      return await this.prev;
+    result(): T {
+      return this.prev;
     }
 
-    async reject(
-      predicate: (prev: T) => boolean,
-      message: string
-    ): Promise<Handler<T>> {
-      if (predicate(await this.prev)) {
+    reject(predicate: (prev: T) => boolean, message: string): Handler<T> {
+      if (predicate(this.prev)) {
         throw new Error(message);
       }
-      return await this;
+      return this;
     }
 
-    async then<T2>(func: (prev: T) => Promise<T2>): Promise<Handler<T2>> {
+    then<T2>(func: (prev: T) => T2): Handler<T2> {
       try {
-        return new Handler<T2>(await func(await this.prev));
+        return new Handler<T2>(func(this.prev));
       } catch (e: any) {
         throw new Error(e.message);
       }
