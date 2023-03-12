@@ -1,1 +1,1 @@
-function throwIf() {}
+import chain from './chain-of-responsibility';

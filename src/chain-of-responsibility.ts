@@ -1,9 +1,9 @@
-namespace ChainOfResponsibility {
-  export function chainOfResponsibility() {
-    return new Handler();
-  }
+export default function chain() {
+  return new ChainOfResponsibility.Handler();
+}
 
-  class Handler {
+namespace ChainOfResponsibility {
+  export class Handler {
     private prev?: Handler;
     private next?: Handler;
     private func: any;
