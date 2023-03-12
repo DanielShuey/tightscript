@@ -16,11 +16,12 @@ namespace ChainOfResponsibility {
       return this.prev;
     }
 
-    reject(
-      predicate: (prev: Promise<T>) => boolean,
-      message: string
-    ): Handler<T> {
-      if (predicate(this.prev)) throw new Error(message);
+    reject(predicate: (prev: T) => boolean, message: string): Handler<T> {
+      this.prev.then(x => {
+        if (predicate(x)) {
+          throw new Error(message);
+        }
+      });
       return this;
     }
 
