@@ -1,1 +1,1 @@
-export {chain} from './src/chain-of-responsibility';
+export {cascade} from './src/chain-of-responsibility';
