@@ -5,7 +5,7 @@ declare namespace ChainOfResponsibility {
         constructor(prev: T);
         result(): T;
         reject(predicate: (prev: T) => Promise<boolean>, message: string): Handler<T>;
-        tap<T2>(func: (prev: T) => T2): Handler<T2>;
+        then<T2>(func: (prev: T) => T2): Handler<T2>;
     }
 }
 export {};

@@ -22,7 +22,7 @@ var ChainOfResponsibility;
             });
             return this;
         }
-        tap(func) {
+        then(func) {
             try {
                 return new Handler(func(this.prev));
             }
