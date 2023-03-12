@@ -3,6 +3,8 @@ export function cascade() {
 }
 
 namespace ChainOfResponsibility {
+  // Have to run all at once due to promises
+
   export class Handler<T> {
     private prev: T;
 
@@ -14,14 +16,17 @@ namespace ChainOfResponsibility {
       return this.prev;
     }
 
-    reject(predicate: (prev: T) => boolean, message: string): Handler<T> {
-      if (predicate(this.prev)) {
-        throw new Error(message);
-      }
+    reject(
+      predicate: (prev: T) => Promise<boolean>,
+      message: string
+    ): Handler<T> {
+      predicate(this.prev).then(result => {
+        if (result) throw new Error(message);
+      });
       return this;
     }
 
-    then<T2>(func: (prev: T) => T2): Handler<T2> {
+    tap<T2>(func: (prev: T) => T2): Handler<T2> {
       try {
         return new Handler<T2>(func(this.prev));
       } catch (e: any) {
