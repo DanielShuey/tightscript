@@ -10,21 +10,20 @@ var ChainOfResponsibility;
     // Have to run all at once due to promises
     class Handler {
         constructor(prev) {
-            this.prev = prev;
+            this.prev = new Promise(() => prev);
         }
         result() {
             return this.prev;
         }
         reject(predicate, message) {
-            predicate(this.prev).then(result => {
-                if (result)
-                    throw new Error(message);
-            });
+            if (predicate(this.prev))
+                throw new Error(message);
             return this;
         }
         then(func) {
             try {
-                return new Handler(func(this.prev));
+                const result = this.prev.then(func);
+                return new Handler(result);
             }
             catch (e) {
                 throw new Error(e.message);
