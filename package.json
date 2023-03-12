@@ -1,32 +1,30 @@
 {
   "name": "tightscript",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "prepare": "husky install && yarn run compile",
     "lint": "eslint .",
     "clean": "gts clean",
-    "compile": "rm -Rf ./build && tsc && cp -R src/proto/ build/src/proto",
     "fix": "eslint . --fix",
     "pretest": "yarn run compile",
     "posttest": "yarn run lint",
     "test": "jest --coverage NODE_PATH=./build/src",
     "build": "yarn run compile",
-    "start": "node build/src/index.js",
     "watch": "nodemon src/index.ts --watch src"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DanielShuey/TightScript.git"
+    "url": "git+ssh://github.com/DanielShuey/tightscript.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DanielShuey/TightScript/issues"
+    "url": "https://github.com/DanielShuey/tightscript/issues"
   },
-  "homepage": "https://github.com/DanielShuey/TightScript#readme",
+  "homepage": "https://github.com/DanielShuey/tightscript#readme",
   "devDependencies": {
     "commitlint": "^17.4.4",
     "eslint": "^8.36.0",
